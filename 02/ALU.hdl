@@ -67,4 +67,17 @@ CHIP ALU {
 	 */
 	Not16(in=y, out=noty);
 	Mux4Way16(a=y, b=noty, sel[0]=ny, sel[1]=zy, out=yout);
+	
+	/* Implementing f functionality
+	 * Selection of x+y or x&y can be implemented using a 16-bit Mux
+	 */
+	Add16(a=xout, b=yout, out=sumxy);
+	And16(a=xout, b=yout, out=xandy);
+	Mux16(a=xandy, b=sumxy, sel=f, out=function);
+	
+	/* Implementing no function
+	 * Can be again implemented using a Mux
+	 */
+	Not16(in=function, out=notf);
+	Mux16(a=function, b=notf, sel=no, out=notout);
 }
