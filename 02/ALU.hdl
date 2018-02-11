@@ -79,5 +79,14 @@ CHIP ALU {
 	 * Can be implemented using a Mux, too
 	 */
 	Not16(in=function, out=notf);
-	Mux16(a=function, b=notf, sel=no, out=out);
+	Mux16(a=function, b=notf, sel=no, out=out, out=final);
+	
+	/* Implementing the flags zr and ng
+	 */
+	Not16(in=final, out=notfinal);
+	And16(a=notfinal, b=false, out=zr);
+	
+	/* In 2's complement, MSB of a negative number is 1
+	 */
+	And(a=final[15], b=true, out=ng);
 }
