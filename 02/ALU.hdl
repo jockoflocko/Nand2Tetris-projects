@@ -76,8 +76,8 @@ CHIP ALU {
 	Mux16(a=xandy, b=sumxy, sel=f, out=function);
 	
 	/* Implementing no function
-	 * Can be again implemented using a Mux
+	 * Can be implemented using a Mux, too
 	 */
 	Not16(in=function, out=notf);
-	Mux16(a=function, b=notf, sel=no, out=notout);
+	Mux16(a=function, b=notf, sel=no, out=out);
 }
