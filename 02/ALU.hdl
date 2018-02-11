@@ -42,5 +42,29 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+	// Put you code here:
+	
+	/* x-logic part
+	 * x_in -->	zx	nx	||	x_out
+	 *			------------------
+	 *			0	0	||	x
+	 *			0	1	||	!x		-> use Not(x) as one input
+	 *			1	0	||	0[16]	-> use false as one input
+	 *			1	1	||	1[16]	-> use true as one input
+	 * implement using 4-way 16-bit Mux with zx and nx as selectors
+	 */
+	Not16(in=x, out=notx);
+	Mux4Way16(a=x, b=notx, sel[0]=nx, sel[1]=zx, out=xout);
+	
+	/* y-logic part
+	 * y_in -->	zy	ny	||	y_out
+	 *			------------------
+	 *			0	0	||	y
+	 *			0	1	||	!y		-> use Not(y) as one input
+	 *			1	0	||	0[16]	-> use false as one input
+	 *			1	1	||	1[16]	-> use true as one input
+	 * implement using 4-way 16-bit Mux with zy and ny as selectors
+	 */
+	Not16(in=y, out=noty);
+	Mux4Way16(a=y, b=noty, sel[0]=ny, sel[1]=zy, out=yout);
 }
