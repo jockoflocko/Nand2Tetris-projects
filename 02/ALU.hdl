@@ -89,7 +89,7 @@ CHIP ALU {
 	Or(a=firstor, b=secondor, out=zrinverse);
 	Not(in=zrinverse, out=zr);
 	
-	/* Implementiation of no:
+	/* Implementation of no:
 	 * In 2's complement, MSB of a negative number is 1
 	 */
 	And(a=finalMSB, b=true, out=ng);
