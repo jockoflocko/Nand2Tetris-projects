@@ -17,4 +17,35 @@ CHIP PC {
 
     PARTS:
     // Put your code here:
+
+	/*
+	 * Input Mux (inMux):
+	 * Either pipe through the input value, or the value from incMux
+	 */
+	Mux16(a=pipeBack, b=in, sel=load, out=toReset);
+	
+	/* 
+	 * Resetting the Counter (resMux):
+	 * Reset value if "reset=1" else pipe through value from inMux
+	 * Set b=false
+	 */
+	Mux16(a=toReset, b=false, sel=reset, out=regIn);
+	
+	/*
+	 * Register:
+	 * Enable write to register always by setting the load of the register
+	 * to true always
+	 * One output is the output of the chip, the other one gets piped to the
+	 * incrementer
+	 */
+	Register(in=regIn, load=true, out=regOut, out=out);
+	
+	/*
+	 * Incrementing:
+	 * Get the value from the register and put out the incremented value
+	 * Depending on "inc" pipe back the incremented result to the first Mux
+	 * or pipe back value stored in the register (incMux)
+	 */
+	Inc16(in=regOut, out=incVal);
+	Mux16(a=regOut, b=incVal, sel=inc, out=pipeBack);
 }
